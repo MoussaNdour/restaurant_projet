@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Commander un plat{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Commander un plat</h2>
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Valider la commande</button>
+    </form>
+</div>
+{% endblock %}

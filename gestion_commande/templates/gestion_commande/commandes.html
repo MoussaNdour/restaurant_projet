@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Liste des Commandes{% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+    <h2 class="mb-4 text-center">📦 Liste des Commandes</h2>
+
+    {% if commandes %}
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Client</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Date de Commande</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for commande in commandes %}
+                    <tr>
+                        <th scope="row">{{ commande.id }}</th>
+                        <td>{{ commande.client.get_full_name|default:commande.client.username }}</td>
+                        <td>{{ commande.client.email }}</td>
+                        <td>{{ commande.date_commande|date:"d/m/Y H:i" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center" role="alert">
+            Aucune commande enregistrée.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+<div class="container mt-5">
+    <h2 class="text-center">Créer un compte</h2>
+    <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <button type="submit">S'inscrire</button>
+</form>
+
+    <div class="text-center mt-3">
+        <a href="{% url 'authentification:connexion' %}">Déjà un compte ? Connectez-vous</a>
+    </div>
+</div>
+{% endblock %}

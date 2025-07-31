@@ -1,0 +1,83 @@
+/* Reset marges globales */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #fff;
+  color: #333;
+}
+
+/* Conteneur du carrousel */
+.carousel-container {
+  position: relative;
+  height: 90vh;
+  overflow: hidden;
+}
+
+/* Images du carrousel pleine largeur et hauteur */
+.carousel-container img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+/* Optionnel : zoom léger au survol */
+.carousel-container img:hover {
+  transform: scale(1.05);
+}
+
+/* Texte superposé au centre du carrousel */
+.carousel-overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  text-align: center;
+  color: rgba(253, 254, 255, 0.95);
+  background-color: rgba(0, 0, 0, 0.55); /* un peu plus opaque pour meilleure lisibilité */
+  padding: 30px 25px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 800px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Titre du texte superposé */
+.carousel-overlay-text h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.4rem;
+  margin-bottom: 15px;
+  letter-spacing: 1.2px;
+}
+
+/* Paragraphe du texte superposé */
+.carousel-overlay-text p {
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.3px;
+}
+
+/* Cards services : effet hover */
+.service-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Responsive - ajustements pour écrans petits */
+@media (max-width: 767px) {
+  .carousel-overlay-text h1 {
+    font-size: 2.2rem;
+  }
+  .carousel-overlay-text p {
+    font-size: 1rem;
+  }
+}

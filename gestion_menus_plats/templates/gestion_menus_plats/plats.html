@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Menu - Nos Délices{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center text-success mb-4">🍴 Notre Menu Gourmand</h2>
+
+    {% for label, label_fr in categories %}
+        <h3 class="mt-5 mb-3 text-primary">{{ label_fr }}</h3>
+        <div class="row">
+            {% for plat in plats %}
+                {% if plat.categorie == label %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <img src="{% static 'images/img' %}{{ forloop.counter }}.jpg"
+                                 class="card-img-top"
+                                 alt="{{ plat.nom }}"
+                                 style="height: 230px; object-fit: cover;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title text-center">{{ plat.nom }}</h5>
+                                <p class="card-text">{{ plat.description|truncatewords:20 }}</p>
+                                <p class="fw-bold text-success">💰 {{ plat.prix }} €</p>
+                                {% if plat.est_specialite %}
+                                    <span class="badge bg-warning text-dark">Spécialité</span>
+                                {% endif %}
+                                {% if plat.est_epuise %}
+                                    <span class="badge bg-danger mt-2">Épuisé</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
