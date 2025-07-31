@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestion des Réservations{% endblock %}
+
+{% block content %}
+<div class="container mt-5 py-4">
+    <h2 class="mb-4 text-center">📅 Gestion des Réservations</h2>
+
+    {% if reservations %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Client</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Table</th>
+                        <th scope="col">Date de réservation</th>
+                        <th scope="col">Date prévue</th>
+                        <th scope="col">État</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reservation in reservations %}
+                        <tr>
+                            <th scope="row">{{ reservation.id }}</th>
+                            <td>{{ reservation.client.get_full_name|default:reservation.client.username }}</td>
+                            <td>{{ reservation.client.email }}</td>
+                            <td>Table {{ reservation.table.numero }}</td>
+                            <td>{{ reservation.date_reservation|date:"d/m/Y H:i" }}</td>
+                            <td>{{ reservation.date_prevue|date:"d/m/Y H:i" }}</td>
+                            <td>
+                                {% if reservation.etat == 'en_attente' %}
+                                    <span class="badge bg-warning text-dark">En attente</span>
+                                {% elif reservation.etat == 'confirmee' %}
+                                    <span class="badge bg-success">Confirmée</span>
+                                {% elif reservation.etat == 'annulee' %}
+                                    <span class="badge bg-danger">Annulée</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Inconnu</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            Aucune réservation enregistrée.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

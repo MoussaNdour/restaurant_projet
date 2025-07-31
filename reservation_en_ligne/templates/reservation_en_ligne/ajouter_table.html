@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container py-5 mt-5 pt-5 w-50">
+        <form class="mx-auto" method="post" style="max-width: 500px;">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary w-50">
+                Ajouter la table
+            </button>
+        </form>
+
+    </div>
+{% endblock %}

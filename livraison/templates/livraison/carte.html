@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Carte des livraisons</h2>
+  <div id="map" style="height: 500px;"></div>
+</div>
+
+<!-- Google Maps JS -->
+<script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}"></script>
+
+<script>
+  function initMap() {
+    const center = { lat: 14.6928, lng: -17.4467 }; // Dakar par défaut
+    const map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 12,
+      center: center
+    });
+
+    // Marqueurs des adresses clients
+    const adresses = [
+      {% for adresse in adresses %}
+        {% if adresse.latitude and adresse.longitude %}
+          {
+            lat: {{ adresse.latitude|floatformat:"6" }},
+            lng: {{ adresse.longitude|floatformat:"6" }},
+            nom: "{{ adresse.nom_client|escapejs }}"
+          },
+        {% endif %}
+      {% endfor %}
+    ];
+
+    adresses.forEach(addr => {
+      new google.maps.Marker({
+        position: { lat: addr.lat, lng: addr.lng },
+        map: map,
+        title: addr.nom,
+        icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+      });
+    });
+
+    // Marqueurs des livreurs
+    const livreurs = [
+      {% for livreur in livreurs %}
+        {% if livreur.position_lat and livreur.position_long %}
+          {
+            lat: {{ livreur.position_lat|floatformat:"6" }},
+            lng: {{ livreur.position_long|floatformat:"6" }},
+            nom: "{{ livreur.nom|escapejs }}"
+          },
+        {% endif %}
+      {% endfor %}
+    ];
+
+    livreurs.forEach(livreur => {
+      new google.maps.Marker({
+        position: { lat: livreur.lat, lng: livreur.lng },
+        map: map,
+        title: livreur.nom + " (Livreur)",
+        icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+      });
+    });
+  }
+
+  window.onload = initMap;
+</script>
+
+{% endblock %}

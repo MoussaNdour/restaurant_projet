@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Réservation confirmée{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h2>Merci pour votre réservation !</h2>
+    <p>Votre table (n°{{ reservation.table.numero }}) est réservée.</p>
+    <a href="/" class="btn btn-success mt-3">Retour à l'accueil</a>
+</div>
+{% endblock %}
