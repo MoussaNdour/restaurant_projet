@@ -17,3 +17,13 @@ class Plat(models.Model):
 
     def __str__(self):
         return f"{self.nom} ({self.get_categorie_display()})"
+    
+    @property
+    def is_entree(self):
+        return self.categorie=='entree'
+    @property
+    def is_plat_resistant(self):
+        return self.categorie=='plat_resistant'
+    @property
+    def is_dessert(self):
+        return self.categorie=='dessert'

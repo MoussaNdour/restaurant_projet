@@ -21,27 +21,71 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="{% url 'accueil:index' %}">Accueil</a></li>
-        {% if user.is_authenticated and user.is_client %}
-          <li class="nav-item"><a class="nav-link" href="{% url 'reservation:reserver' %}">Réserver</a></li>
-        {% endif %}
-        {% if user.is_authenticated %}
-          <li class="nav-item"><a class="nav-link" href="{% url 'authentification:deconnexion' %}">Deconnexion</a></li>
-        {% else %}
-          <li class="nav-item"><a class="nav-link" href="{% url 'authentification:connexion' %}">Connexion</a></li>
-        {% endif %}
+  <ul class="navbar-nav ms-auto">
 
-        {% if user.is_authenticated and user.is_personnel %}
-          <li class="nav-item"><a class="nav-link" href="{% url 'gestion_commande:commandes' %}">Gerer les commandes</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'reservation_en_ligne:reservations' %}">Gerer les reservations</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'gestion_menus_plats:ajouter_plat' %}">Ajouter Plat</a></li>
-        {% endif %}
+    <!-- Lien accessible à tous -->
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'accueil:index' %}">Accueil</a>
+    </li>
 
-        <li class="nav-item"><a class="nav-link" href="{% url 'gestion_menus_plats:plats' %}">Menu</a></li>
-        //<li class="nav-item"><a class="nav-link" href="{% url 'livraison:ajouter' %}">livraison</a></li>
-      </ul>
-    </div>
+    {% if user.is_authenticated %}
+
+      {% if user.is_client %}
+        <!-- Client -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'reservation:reserver' %}">Réserver</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'gestion_commande:valider_commande' %}">Voir mes commandes</a>
+        </li>
+      {% endif %}
+
+      {% if user.is_serveur or user.is_admin %}
+        <!-- Serveur + Admin -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'reservation_en_ligne:ajouter_table' %}">Créer des tables</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'reservation_en_ligne:reservations' %}">Gérer les réservations</a>
+        </li>
+      {% endif %}
+
+      {% if user.is_cuisinier or user.is_admin %}
+        <!-- Cuisinier + Admin -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'gestion_menus_plats:ajouter_plat' %}">Ajouter un plat</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'gestion_commande:commandes' %}">Gerer les commandes</a>
+        </li>
+      {% endif %}
+
+      {% if user.is_admin %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'accueil:personnel' %}">Gérer le Personnel</a>
+        </li>
+        
+      {% endif %}
+
+      
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'authentification:deconnexion' %}">Déconnexion</a>
+      </li>
+
+    {% else %}
+      
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'authentification:connexion' %}">Connexion</a>
+      </li>
+    {% endif %}
+
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'gestion_menus_plats:plats' %}">Menu</a>
+    </li>
+
+  </ul>
+</div>
+
   </div>
 </nav>
 {% comment %} {% if messages %}

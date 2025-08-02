@@ -17,7 +17,7 @@ def reserver(request):
                 table.save()
                 return render(request, 'reservation_en_ligne/confirmation.html', {'reservation': reservation})
             else:
-                form.add_error('table', "Cette table n’est plus disponible.")
+                form.add_error('table', "Cette table n'est plus disponible.")   
     else:
         form = ReservationForm()
     return render(request, 'reservation_en_ligne/reserver.html', {'form': form})

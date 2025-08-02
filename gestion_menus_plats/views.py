@@ -15,7 +15,7 @@ def plats(request):
 
 @login_required
 def ajouter_plat(request):
-    if request.user.role != 'personnel':
+    if request.user.role not in ['cuisinier','admin','serveur']:
         raise PermissionDenied("Accès réservé au personnel.")
     
     if request.method == 'POST':
@@ -25,4 +25,10 @@ def ajouter_plat(request):
             return redirect('gestion_menus_plats:ajouter_plat')
     else:
         form = PlatForm()
+
     return render(request, 'gestion_menus_plats/ajouter.html', {'form': form})
+
+@login_required
+def gestion_plat(request, nom_plat):
+    plat=Plat.filter(nom=nom_plat)
+    return render(request,'gestion_plat.html')

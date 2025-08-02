@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Gestion du Personnel</h1>
+
+    <!-- ✅ Liste du personnel -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nom d'utilisateur</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Rôle</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for personne in personnel %}
+            <tr>
+                <td>{{ personne.username }}</td>
+                <td>{{ personne.last_name }}</td>
+                <td>{{ personne.first_name }}</td>
+                <td>{{ personne.email }}</td>
+                <td>{{ personne.role|title }}</td>
+                <td>
+                    <form method="post" action="personnel/supprimer_personnel/{{personne.id}}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">Aucun personnel trouvé.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- ✅ Formulaire d'ajout de personnel -->
+    <h2 class="mt-5">Ajouter un membre du personnel</h2>
+    <form method="post" action="personnel/creation_personnel">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Créer</button>
+    </form>
+</div>
+{% endblock %}

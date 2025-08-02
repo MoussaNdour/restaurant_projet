@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Ma Commande{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">🛒 Commande en cours</h2>
+
+    {% if commande %}
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Plat</th>
+                    <th>Quantité</th>
+                    <th>Prix unitaire</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ligne in commande.lignes.all %}
+                    <tr>
+                        <td>{{ ligne.plat.nom }}</td>
+                        <td>{{ ligne.quantite }}</td>
+                        <td>{{ ligne.plat.prix }} FCFA</td>
+                        <td>{{ ligne.total|floatformat:2 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success w-100">✅ Valider la commande</button>
+        </form>
+        {% if commande.statut == 'validee' %}
+            <a href="{% url 'gestion_commande:telecharger_facture' commande.id %}" class="btn btn-outline-primary mt-3">
+                Télécharger la facture
+            </a>
+        {% endif %}
+    {% else %}
+        <div class="alert alert-info">Aucune commande en cours.</div>
+    {% endif %}
+
+    <hr class="my-5">
+
+    <h3 class="mb-3">📜 Commandes précédentes</h3>
+
+    {% if commandes_validees %}
+        <div class="list-group">
+            {% for cmd in commandes_validees %}
+                <div class="list-group-item">
+                    <strong>Commande #{{ cmd.id }}</strong> – {{ cmd.date_commande|date:"d/m/Y H:i" }}
+                    <ul>
+                        {% for ligne in cmd.lignes.all %}
+                            <li>{{ ligne.plat.nom }} × {{ ligne.quantite }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Aucune commande validée pour le moment.</p>
+    {% endif %}
+</div>
+{% endblock %}

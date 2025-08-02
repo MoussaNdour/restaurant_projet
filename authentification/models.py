@@ -4,7 +4,9 @@ from django.db import models
 class CustomUser(AbstractUser):
     ROLE_CHOICES = [
         ('client', 'Client'),
-        ('personnel', 'Personnel'),
+        ('admin', 'Admin'),
+        ('cuisinier','Cuisinier'),
+        ('serveur','Serveur'),
     ]
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='client')
 
@@ -16,6 +18,17 @@ class CustomUser(AbstractUser):
         return self.role == 'personnel'
     
     @property
+    def is_cuisinier(self):
+        return self.role == 'cuisinier'
+    
+    @property
+    def is_admin(self):
+        return self.role=='admin'
+    
+    @property
+    def is_serveur(self):
+        return self.role=='admin'
+    @property 
     def is_client(self):
-        return self.role == 'client'
+        return self.role=='client'
     
